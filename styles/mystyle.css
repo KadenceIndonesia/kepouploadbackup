@@ -916,28 +916,35 @@ ul.full-length,
 /*alert*/
 div.alert{
 	width:100%;	
-	padding:8px;
-	border:1px solid;	
-	border-radius: 5px;
+	padding:10px;
+	border:1px solid;
+	border-radius: 3px;
+	font-size: 12px;
 }
-/* .alert.success{
-	background-color: #CFEFDA;
-	color: #44815F;
-} */
 .alert.success{
-	background-color:#8cf86b;
-	border-color:#5cdb34;
-	color:#389f18;	
+	background-color: #E6F5E3;
+	color: #20211F;
+	border:1px solid #48A463;
+	border-left: 5px solid #48A463;
 }
+
 .alert.welcome{
 	background-color:#8cf86b;
 	border-color:#5cdb34;
 	color:#389f18;
 }
+
+.alert.error{
+	background-color:#F9DEDE;
+	border:1px solid #E31C3D;
+	border-left: 5px solid #E31C3D;
+	color: #1B1C1A;
+}
 .alert.warning{
-	background-color:#DD6B5D;
-	border-color:#EBCCD1;
-	color:#ffffff;	
+	background-color:#F9DEDE;
+	border:1px solid #E31C3D;
+	border-left: 5px solid #E31C3D;
+	color: #1B1C1A;
 }
 
 .alert.info{

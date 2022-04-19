@@ -1,5 +1,27 @@
 <?php
     if(session_status() === PHP_SESSION_NONE){session_start();}
+    $totalfiles = 0;
+    $arrayfiles = array("");
+    if(is_dir("../files/".$_SESSION['id'])){
+        $path = "../files/".$_SESSION['id'];
+        $files = scandir($path);
+        $countfiles = count($files);
+        for ($i=0; $i < $countfiles ; $i++) { 
+            if($files[$i]!='.' && $files[$i]!='..' && $files[$i]!='archive'){
+                $totalfiles++;
+                array_push($arrayfiles, $files[$i]);
+            }
+        }
+
+        $filesarchive = scandir($path."/archive/");
+        $countfilesarchive = count($filesarchive);
+        for ($i=0; $i < $countfilesarchive ; $i++) { 
+            if($filesarchive[$i]!='.' && $filesarchive[$i]!='..'){
+                $totalfiles++;
+                array_push($arrayfiles, 'archive/'.$filesarchive[$i]);
+            }
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +117,7 @@
 		margin: auto;		
 	}
     #previewWrapper{
-        width: 100%; max-width: 400px; margin: auto; padding: 10px;
+        width: 100%; max-width: 400px; margin: auto; padding: 10px; font-size: 13px;
     }
     .previewFile{
         width: 100%; border: 1px solid #171717; border-radius: 5px;
@@ -105,6 +127,12 @@
         vertical-align: middle;
         width: 50px;
         height: 50px;
+    }
+    .listvideo{
+        width: 100%;
+        max-width: 400px; margin: auto;
+        padding: 10px;
+        border: 1px solid red;
     }
 </style>
 <body>
@@ -119,15 +147,23 @@
             <div class="headLogin">
                 <?php 
                     if(isset($_GET['status'])){
+                        $status = $_GET['status'];
+                        if($status == 'success'){
+                            $message = $_GET['count'].' video berhasil diupload';
+                        }else{
+                            $message = $_GET['message'];
+                        }
                 ?>
-                <div class="alert success left">asdasd</div>
+                <div class="alert <?php echo $status; ?> left">
+                    <?php echo $message; ?>
+                </div>
                 <?php
                     }
                 ?>
             </div>
             <form action="upload.php" method="POST" enctype="multipart/form-data">
                 <div class="box__input" style="text-align: center;">
-                    <input type="file" name="file[]" id="img_upload" class="box__file inputfile inputfile-3" data-multiple-caption="{count} files selected" multiple required>
+                    <input type="file" name="file[]" id="img_upload" class="box__file inputfile inputfile-3" data-multiple-caption="{count} files selected" multiple required accept="video/mp4,video/x-m4v,video/*">
                     <label for="img_upload">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> 
                         <span>Pilih file…</span>
@@ -136,23 +172,30 @@
                 <div class="box__uploading">Uploading&hellip;</div>
                 <div class="box__success">Done!</div>
                 <div class="box__error">Error! <span></span>.</div>
-                <!-- <div class="bodyLogin">
-                    <form method="post" action="prd/create/images/save" enctype="multipart/form-data" class="boxfileupload has-advanced-upload">
-                        <aks-file-upload></aks-file-upload>
-                        <p id="uploadfile" type="json"></p>
-                    </form>
-                </div> -->
-                <!-- <label for="fileupload">
-                <input type="file" name="file[]" id="fileupload" multiple>
-                </label>
-                <button type="submit" class="myButton-flat-green">Upload</button> -->
                 <div id="previewWrapper">
                 </div>
                 <p style="text-align: center"><input type="submit" value="Upload" class="myButton-green"></p>
             </form>
+            <div id="previewWrapper">
+                <?php if($totalfiles == 0) {echo 'Belum ada video yang diupload';}else{ ?>
+                    <p style="text-align: center">List video yang sudah diupload</p>
+                <?php 
+                    for ($x=0; $x < $totalfiles; $x++) {
+                        $linkvideo = $path."/".$arrayfiles[$x+1];
+                        ?>
+                        <div class="previewFile increase" style="position: relative; cursor: pointer;" onClick="window.open('<?php echo $linkvideo ?>')">
+                            <object data="https://www.svgrepo.com/show/76665/video.svg"></object>
+                            <?php echo substr($arrayfiles[$x+1], 0, 35); ?>
+                        </div>
+                    <?php }
+                } 
+                ?>
+            </div>
             <div class="bottomLogin">
-                <a href="logout.php">Logout</a>
-                <p class="size-std" style="position: absolute; bottom: 10px; left: 0; right: 0; height: 20px;">&copy;Copyright by Kadence Indonesia All right reserved</p>
+                <p class="size-std" style="position: absolute; bottom: 10px; left: 0; right: 0; height: 50px;">
+                    <a href="logout.php" style="font-size:14px;">Logout</a><br /><br />
+                    &copy;Copyright by Kadence Indonesia All right reserved
+                </p>
             </div>
         </div>
     </div>

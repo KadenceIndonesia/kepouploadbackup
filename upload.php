@@ -19,6 +19,7 @@ $jumlahFile = count($files['file']['name']);
 $no = 0;
 $success = 0;
 $failed = 0;
+$alertmessage = "";
 global $mysqli;
 for ($i = 0; $i < $jumlahFile; $i++) {
     $no++;
@@ -44,10 +45,11 @@ for ($i = 0; $i < $jumlahFile; $i++) {
                 }else{
                     echo ($mysqli->error);
                     $failed++;
+                    $alertmessage = 'Terjadi kesalahan dalam menyimpan data';
                 }
             }
         }else{
-            echo "gagal";
+            $alertmessage = 'Gagal mengupload video '.$namaFile;
         }
     }else{
         $lokasiBaru = "{$folderUpload}/{$id}/archive/{$namaBaru}";
@@ -58,7 +60,7 @@ for ($i = 0; $i < $jumlahFile; $i++) {
     }
 }
 if($failed == 0){
-    header('Location: ./index.php?status=success');
+    header('Location: ./index.php?status=success&count='.$success);
 }else{
     header('Location: ./index.php?status=error');
 }
