@@ -113,7 +113,6 @@
             window.location='login.php'
         </script>
     <?php } ?>
-    <a href="logout.php">Logout</a>
 <div class="wrapper">
     <div class="login-wrap">
         <div class="fixMiddle loginBoxsize" style="width: 50%; height: 75%;">
@@ -142,9 +141,10 @@
                 <button type="submit" class="myButton-flat-green">Upload</button> -->
                 <div id="previewWrapper">
                 </div>
-                <p><input type="submit" value="Upload" class="myButton-green"></p>
+                <p style="text-align: center"><input type="submit" value="Upload" class="myButton-green"></p>
             </form>
             <div class="bottomLogin">
+                <a href="logout.php">Logout</a>
                 <p class="size-std" style="position: absolute; bottom: 10px; left: 0; right: 0; height: 20px;">&copy;Copyright by Kadence Indonesia All right reserved</p>
             </div>
         </div>

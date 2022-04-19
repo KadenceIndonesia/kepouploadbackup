@@ -2,7 +2,7 @@
 
 $host = 'localhost';
 $username = 'root';
-$pass = 'root';
+$pass = '';
 $database = 'kepo';
 
 // mysql_connect($host, $username, $password) or die('error connect');
