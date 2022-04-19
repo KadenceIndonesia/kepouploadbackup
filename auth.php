@@ -16,5 +16,7 @@ if($count < 1){
     $res = $query->fetch_assoc();
     $_SESSION['id'] = $res['id'];
     $_SESSION['user'] = $res['tmpusername'];
+    $_SESSION['task'] = $res['task'];
+    $_SESSION['code'] = $res['code'];
     header('Location: index.php');
 }

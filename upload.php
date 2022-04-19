@@ -1,29 +1,46 @@
 <?php
 session_start();
-$folderUpload = "./files";
-// mkdir("../files/12345", 0777);
+include 'dbsbackup.php';
+$id = $_SESSION['id'];
+$code = $_SESSION['code'];
+$task = $_SESSION['task'];
+$folderUpload = "../files/";
+$date = new DateTime();
+$timestamp = $date->getTimestamp();
+$formatDate = date_format($date,"Ymd");
+$formatTime = date_format($date,"His");
+$fulldatetime = date_format($date,"Y-m-d H:i:s");
+if(!is_dir("../files/".$id)){
+    mkdir("../files/".$id, 0777);
+    mkdir("../files/".$id."/archive", 0777);
+}
 $files = $_FILES;
 $jumlahFile = count($files['file']['name']);
+$no = 0;
+global $mysqli;
 for ($i = 0; $i < $jumlahFile; $i++) {
+    $no++;
     $namaFile = $files['file']['name'][$i];
     $lokasiTmp = $files['file']['tmp_name'][$i];
-    $namaBaru = uniqid() . '-' . $namaFile;
-    $lokasiBaru = "{$folderUpload}/{$namaBaru}";
+    $ext = pathinfo($namaFile, PATHINFO_EXTENSION);
+    $namaBaru = $timestamp."_".$no."_".$id.'_'.$formatDate."-".$formatTime."_".$code."_".$task.".". $ext;
+    if($i == 0){
+        $lokasiBaru = "{$folderUpload}/{$id}/{$namaBaru}";
+    }else{
+        $lokasiBaru = "{$folderUpload}/{$id}/archive/{$namaBaru}";
+    }
     $prosesUpload = copy($lokasiTmp, $lokasiBaru);
-
-    echo "nama: $namaFile, tmp: {$lokasiTmp} <br>";
+    if($prosesUpload){
+        if($i == 0){
+            $update = $mysqli->query("UPDATE task SET state=100, filename='$namaBaru', uploadtime='$fulldatetime', open=null WHERE id=$id");
+            $save = $mysqli->query("INSERT INTO taskstatus(task, filename) VALUES($id, '$namaBaru')");
+            if($save){
+                header('Location: ./index.php');
+            }else{
+                header('Location: ./index.php?error=error');
+            }
+        }
+    }else{
+        echo "gagal";
+    }
 }
-
-// $uploadOk = 1;
-// $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-// // Check if image file is a actual image or fake image
-// if(isset($_POST["submit"])) {
-//   $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-//   if($check !== false) {
-//     echo "File is an image - " . $check["mime"] . ".";
-//     $uploadOk = 1;
-//   } else {
-//     echo "File is not an image.";
-//     $uploadOk = 0;
-//   }
-// }
