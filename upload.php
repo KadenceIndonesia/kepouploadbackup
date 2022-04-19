@@ -37,7 +37,8 @@ for ($i = 0; $i < $jumlahFile; $i++) {
             if($save && $update){
                 header('Location: ./index.php');
             }else{
-                header('Location: ./index.php?error=error');
+                // header('Location: ./index.php?error=error');
+                echo ($mysqli->error);
             }
         }
     }else{
