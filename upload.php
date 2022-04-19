@@ -23,7 +23,7 @@ for ($i = 0; $i < $jumlahFile; $i++) {
     $namaFile = $files['file']['name'][$i];
     $lokasiTmp = $files['file']['tmp_name'][$i];
     $ext = pathinfo($namaFile, PATHINFO_EXTENSION);
-    $namaBaru = $timestamp."_".$no."_".$id.'_'.$formatDate."-".$formatTime."_".$code."_".$task.".". $ext;
+    $namaBaru = $timestamp."_".$no."_".$id.'_'.$formatDate."-".$formatTime."__".$code."_".$task.".". $ext;
     if($i == 0){
         $lokasiBaru = "{$folderUpload}/{$id}/{$namaBaru}";
     }else{
