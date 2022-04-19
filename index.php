@@ -143,7 +143,7 @@
     <?php } ?>
 <div class="wrapper">
     <div class="login-wrap">
-        <div class="fixMiddle loginBoxsize" style="width: 50%; height: 75%;">
+        <div class="fixMiddle loginBoxsize" style="width: 50%; height: auto;">
             <div class="headLogin">
                 <?php 
                     if(isset($_GET['status'])){
@@ -176,7 +176,7 @@
                 </div>
                 <p style="text-align: center"><input type="submit" value="Upload" class="myButton-green"></p>
             </form>
-            <div id="previewWrapper">
+            <div id="previewWrapper" style="overflow: auto; max-height: 350px;">
                 <?php if($totalfiles == 0) {echo 'Belum ada video yang diupload';}else{ ?>
                     <p style="text-align: center">List video yang sudah diupload</p>
                 <?php 
@@ -191,13 +191,11 @@
                 } 
                 ?>
             </div>
-            <div class="bottomLogin">
-                <p class="size-std" style="position: absolute; bottom: 10px; left: 0; right: 0; height: 50px;">
-                    <a href="logout.php" style="font-size:14px;">Logout</a><br /><br />
-                    &copy;Copyright by Kadence Indonesia All right reserved
-                </p>
-            </div>
         </div>
+        <p class="size-std" style="position: absolute; bottom: 10px; left: 0; right: 0; height: 50px; text-align:center">
+            <a href="logout.php" style="font-size:14px;">Logout</a><br /><br />
+            &copy;Copyright by Kadence Indonesia All right reserved
+        </p>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
