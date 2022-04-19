@@ -33,8 +33,8 @@ for ($i = 0; $i < $jumlahFile; $i++) {
     if($prosesUpload){
         if($i == 0){
             $update = $mysqli->query("UPDATE task SET state=100, filename='$namaBaru', uploadtime='$fulldatetime', open=null WHERE id=$id");
-            $save = $mysqli->query("INSERT INTO taskstatus(task, filename) VALUES($id, '$namaBaru')");
-            if($save){
+            $save = $mysqli->query("INSERT INTO taskstatus(task, filename) VALUES('$id', '$namaBaru')");
+            if($save && $update){
                 header('Location: ./index.php');
             }else{
                 header('Location: ./index.php?error=error');
