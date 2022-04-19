@@ -1,0 +1,44 @@
+.desk{
+    display: block;
+}
+.mob{
+    display: none;
+}
+@media screen and (max-width: 1530px){
+    /* .lSide{width: 15%;}
+    .rSide{width: 85%;}
+     */
+     .top-info-box{
+         padding: ;
+     }
+     .checkboxtype1 input[type="checkbox"] + label span{
+         width: 15px;
+         height: 15px;
+     }
+     .checkboxtype1 input[type="checkbox"]:checked + label span{
+        width: 15px;
+        height: 15px;
+     }
+
+}
+@media screen and (max-width: 650px){
+    .desk{
+        display: none;
+    }
+    .mob{
+        display: block;
+    }
+    .rSide{
+        width: 100%;
+    }
+    .lSide{
+        width: 0;
+    }
+    .top-info {
+        display: none;
+        height: 0;
+    }
+    .title-content{
+        margin: 5px 0;
+    }
+}
