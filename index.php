@@ -117,6 +117,13 @@
     <div class="login-wrap">
         <div class="fixMiddle loginBoxsize" style="width: 50%; height: 75%;">
             <div class="headLogin">
+                <?php 
+                    if(isset($_GET['status'])){
+                ?>
+                <div class="alert success left">asdasd</div>
+                <?php
+                    }
+                ?>
             </div>
             <form action="upload.php" method="POST" enctype="multipart/form-data">
                 <div class="box__input" style="text-align: center;">
