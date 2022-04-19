@@ -17,6 +17,8 @@ if(!is_dir("../files/".$id)){
 $files = $_FILES;
 $jumlahFile = count($files['file']['name']);
 $no = 0;
+$success = 0;
+$failed = 0;
 global $mysqli;
 for ($i = 0; $i < $jumlahFile; $i++) {
     $no++;
@@ -24,24 +26,39 @@ for ($i = 0; $i < $jumlahFile; $i++) {
     $lokasiTmp = $files['file']['tmp_name'][$i];
     $ext = pathinfo($namaFile, PATHINFO_EXTENSION);
     $namaBaru = $timestamp."_".$no."_".$id.'_'.$formatDate."-".$formatTime."__".$code."_".$task.".". $ext;
-    if($i == 0){
-        $lokasiBaru = "{$folderUpload}/{$id}/{$namaBaru}";
-    }else{
-        $lokasiBaru = "{$folderUpload}/{$id}/archive/{$namaBaru}";
-    }
-    $prosesUpload = copy($lokasiTmp, $lokasiBaru);
-    if($prosesUpload){
+    $checktaskstatus = $mysqli->query("SELECT * FROM taskstatus WHERE task=$id");
+    $count = mysqli_num_rows($checktaskstatus);
+    if($count == 0){
         if($i == 0){
-            $update = $mysqli->query("UPDATE task SET state=100, filename='$namaBaru', uploadtime='$fulldatetime', open=null WHERE id=$id");
-            $save = $mysqli->query("INSERT INTO taskstatus(task, filename) VALUES($id, '$namaBaru')");
-            if($save && $update){
-                header('Location: ./index.php');
-            }else{
-                // header('Location: ./index.php?error=error');
-                echo ($mysqli->error);
+            $lokasiBaru = "{$folderUpload}/{$id}/{$namaBaru}";
+        }else{
+            $lokasiBaru = "{$folderUpload}/{$id}/archive/{$namaBaru}";
+        }
+        $prosesUpload = copy($lokasiTmp, $lokasiBaru);
+        if($prosesUpload){
+            if($i == 0){
+                $update = $mysqli->query("UPDATE task SET state=100, filename='$namaBaru', uploadtime='$fulldatetime', open=null WHERE id=$id");
+                $save = $mysqli->query("INSERT INTO taskstatus(task, filename) VALUES($id, '$namaBaru')");
+                if($save && $update){
+                    $success++;
+                }else{
+                    echo ($mysqli->error);
+                    $failed++;
+                }
             }
+        }else{
+            echo "gagal";
         }
     }else{
-        echo "gagal";
+        $lokasiBaru = "{$folderUpload}/{$id}/archive/{$namaBaru}";
+        $prosesUpload = copy($lokasiTmp, $lokasiBaru);
+        if($prosesUpload){
+            $success++;
+        }
     }
+}
+if($failed == 0){
+    header('Location: ./index.php?status=success');
+}else{
+    header('Location: ./index.php?status=error');
 }
