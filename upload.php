@@ -55,7 +55,10 @@ for ($i = 0; $i < $jumlahFile; $i++) {
         $lokasiBaru = "{$folderUpload}/{$id}/archive/{$namaBaru}";
         $prosesUpload = copy($lokasiTmp, $lokasiBaru);
         if($prosesUpload){
-            $success++;
+            $save = $mysqli->query("INSERT INTO taskstatus(task, filename) VALUES($id, '$namaBaru')");
+            if($save){
+                $success++;
+            }
         }
     }
 }
