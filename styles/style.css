@@ -428,7 +428,7 @@ bottom: 10px;
         width: 94%;
     }
     .loginBoxsize{
-        width: 90%;
+        width: 90% !important;
         height: 65%;
     }
     .bodyLogin input[type="text"],
